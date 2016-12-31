@@ -1,0 +1,54 @@
+/**
+*
+Cargo.toml File
+*
+**/
+
+[package]
+name = "guessing_game"
+version = "0.1.0"
+authors = ["ViCkEy"]
+
+[dependencies]
+rand="0.3.0"
+
+___________________________________________
+//Import the random package
+extern crate rand;
+
+//Standard Libraries
+use std::io;
+use std::cmp::Ordering;
+use rand::Rng;
+
+//Main Code works here
+fn main() {
+    
+    println!("Guess the number!");
+    //Setting up a range using rand::Rng
+    let secret_number=rand::thread_rng().gen_range(1,101);
+    //Generating the secret number by default 
+    println!("The secret number is {}",secret_number);
+    
+    loop{
+    	println!("Please input your guess: ");
+    	//A new variable to receive a guess from the user
+      let mut guess=String::new();
+    	io::stdin().read_line(&mut guess)
+    				.expect("Failed attempt");
+    	let guess: u32= match guess.trim().parse(){
+    			Ok(num) =>num,
+    			Err(_) =>continue,
+    	};
+      //Comparision of the guessed number with the secret number 
+    	println!("You guessed: {}", guess);
+    	match guess.cmp(&secret_number) {
+    		Ordering::Less => println!("Too small!"),
+    		Ordering::Greater => println!("Too big!"),
+    		Ordering::Equal => {
+    			println!("You win!");
+    			break;
+    		}
+    	}
+    }
+}
